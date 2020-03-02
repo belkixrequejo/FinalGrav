@@ -3,7 +3,7 @@
 /**
  * @package    Grav\Common\Data
  *
- * @copyright  Copyright (C) 2015 - 2019 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (C) 2015 - 2020 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
@@ -13,7 +13,6 @@ use RocketTheme\Toolbox\ArrayTraits\Countable;
 use RocketTheme\Toolbox\ArrayTraits\Export;
 use RocketTheme\Toolbox\ArrayTraits\ExportInterface;
 use RocketTheme\Toolbox\ArrayTraits\NestedArrayAccessWithGetters;
-use RocketTheme\Toolbox\File\File;
 use RocketTheme\Toolbox\File\FileInterface;
 
 class Data implements DataInterface, \ArrayAccess, \Countable, \JsonSerializable, ExportInterface
@@ -22,25 +21,21 @@ class Data implements DataInterface, \ArrayAccess, \Countable, \JsonSerializable
 
     /** @var string */
     protected $gettersVariable = 'items';
-
     /** @var array */
     protected $items;
-
-    /** @var Blueprint */
+    /** @var Blueprint|null */
     protected $blueprints;
-
-    /** @var File */
+    /** @var FileInterface|null */
     protected $storage;
 
     /** @var bool */
     private $missingValuesAsNull = false;
-
     /** @var bool */
     private $keepEmptyValues = true;
 
     /**
      * @param array $items
-     * @param Blueprint|callable $blueprints
+     * @param Blueprint|callable|null $blueprints
      */
     public function __construct(array $items = [], $blueprints = null)
     {
@@ -255,7 +250,7 @@ class Data implements DataInterface, \ArrayAccess, \Countable, \JsonSerializable
      */
     public function blueprints()
     {
-        if (!$this->blueprints){
+        if (!$this->blueprints) {
             $this->blueprints = new Blueprint;
         } elseif (\is_callable($this->blueprints)) {
             // Lazy load blueprints.
@@ -308,8 +303,8 @@ class Data implements DataInterface, \ArrayAccess, \Countable, \JsonSerializable
     /**
      * Set or get the data storage.
      *
-     * @param FileInterface $storage Optionally enter a new storage.
-     * @return FileInterface
+     * @param FileInterface|null $storage Optionally enter a new storage.
+     * @return FileInterface|null
      */
     public function file(FileInterface $storage = null)
     {

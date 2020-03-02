@@ -5,13 +5,16 @@ declare(strict_types=1);
 /**
  * @package    Grav\Framework\Flex
  *
- * @copyright  Copyright (C) 2015 - 2019 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (C) 2015 - 2020 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
 namespace Grav\Framework\Flex;
 
+use Grav\Common\Debugger;
+use Grav\Common\Grav;
 use Grav\Framework\Flex\Interfaces\FlexCollectionInterface;
+use Grav\Framework\Flex\Interfaces\FlexInterface;
 use Grav\Framework\Flex\Interfaces\FlexObjectInterface;
 use Grav\Framework\Object\ObjectCollection;
 
@@ -19,7 +22,7 @@ use Grav\Framework\Object\ObjectCollection;
  * Class Flex
  * @package Grav\Framework\Flex
  */
-class Flex implements \Countable
+class Flex implements FlexInterface
 {
     /** @var array */
     protected $config;
@@ -38,6 +41,13 @@ class Flex implements \Countable
         $this->types = [];
 
         foreach ($types as $type => $blueprint) {
+            if (!file_exists($blueprint)) {
+                /** @var Debugger $debugger */
+                $debugger = Grav::instance()['debugger'];
+                $debugger->addMessage(sprintf('Flex: blueprint for flex type %s is missing', $type), 'error');
+
+                continue;
+            }
             $this->addDirectoryType($type, $blueprint);
         }
     }
@@ -50,7 +60,10 @@ class Flex implements \Countable
      */
     public function addDirectoryType(string $type, string $blueprint, array $config = [])
     {
-        $config = array_merge_recursive(['enabled' => true], $this->config['object'] ?? [], $config);
+        $config = array_replace_recursive(['enabled' => true], $this->config ?? [], $config);
+        if ($config === null) {
+            throw new \RuntimeException('Internal error');
+        }
 
         $this->types[$type] = new FlexDirectory($type, $blueprint, $config);
 
@@ -78,9 +91,9 @@ class Flex implements \Countable
     }
 
     /**
-     * @param array|string[] $types
+     * @param array|string[]|null $types
      * @param bool $keepMissing
-     * @return array|FlexDirectory[]
+     * @return array<FlexDirectory|null>
      */
     public function getDirectories(array $types = null, bool $keepMissing = false): array
     {
@@ -219,7 +232,7 @@ class Flex implements \Countable
 
         // Use the original key ordering.
         if (!$guessed) {
-            $list = array_replace(array_fill_keys($keys, null), $list);
+            $list = array_replace(array_fill_keys($keys, null), $list) ?? [];
         } else {
             // We have mixed keys, we need to map flex keys back to storage keys.
             $results = [];
@@ -262,7 +275,7 @@ class Flex implements \Countable
         if (null === $type && null === $keyField) {
             // Special handling for quick Flex key lookups.
             $keyField = 'storage_key';
-            [$type, $key] = $this->resolveKeyAndType($key, $type);
+            [$key, $type] = $this->resolveKeyAndType($key, $type);
         } else {
             $type = $this->resolveType($type);
         }
@@ -288,7 +301,7 @@ class Flex implements \Countable
     {
         $guess = false;
         if (strpos($flexKey, ':') !== false) {
-            [$type, $key] = explode(':',  $flexKey, 2);
+            [$type, $key] = explode(':', $flexKey, 2);
 
             $type = $this->resolveType($type);
         } else {
@@ -303,7 +316,7 @@ class Flex implements \Countable
     protected function resolveType(string $type = null): string
     {
         if (null !== $type && strpos($type, '.') !== false) {
-            return preg_replace('|\.obj$|', '', $type);
+            return preg_replace('|\.obj$|', '', $type) ?? $type;
         }
 
         return $type ?? '';

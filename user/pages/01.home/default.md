@@ -1,42 +1,34 @@
 ---
 title: Home
-body_classes: title-center title-h1h2
+body_classes: 'title-center title-h1h2'
 ---
 
-# Say Hello to Grav!
-## installation successful...
+# GRAFICACIÒN Y ANIMACIÒN
+Las nuevas exigencias de los contenidos digitales han posicionado a la animación y la graficación (entendida como motion graphics) como parte indispensable dentro de los procesos de comunicación y de la generación de contenidos audiovisuales para los medios tradicionales así como para los emergentes nuevos medios.
 
-Congratulations! You have installed the **Base Grav Package** that provides a **simple page** and the default **Quark** theme to get you started.
+ Es importante destacar  en la parte de la postproducción y composición  de video  el rápido y constante desarrollo de tecnologías de postproducción y la integración cada vez más estrecha con los campos del diseño gráfico (identidad gráfica, señalética, diseño tipográfico, ilustración, estrategias que integran lo impreso y la web con lo audiovisual, etc).
 
-!! If you see a **404 Error** when you click `Typography` in the menu, please refer to the [troubleshooting guide](http://learn.getgrav.org/troubleshooting/page-not-found).
+ La implementación del diseño de piezas gráficas en movimiento y su  uso en diferentes medios, contenidos para televisión, video y web  en forma de banners, cortinillas de entrada y salida y los diseños de piezas gráficas para ser vistas en celulares por ejemplo, hacen del campo de la postproducción un nicho laboral  amplio para técnicos profesionales capacitados en manejo de software diverso que apoyen labores de postproducción a editores y animadores profesionales pero que también estén dispuestos a desarrollar competencias propositivas para la solución de problemas y retos generados en la praxis.
+ 
+ #¿Que es Grav CMS?
+ ![](https://www.google.com/url?sa=i&url=https%3A%2F%2Foctuweb.com%2Fconstruyendo-sitios-rapidos-con-grav%2F&psig=AOvVaw2Eqf1wTdodOZtRbrxvRhkm&ust=1583278894329000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLj0rYL8_OcCFQAAAAAdAAAAABAD)
+Es probable que ya hayas ecuchado o leido sobre GRAV y sus maravillas, solo en caso que no sea así, empezaremos por decir que GRAV es un sistema administrador de contenido (CMS, del ingles Content Management System). Para una referencia rápida, GRAV es un sistema tal como lo es WordPress o Joomla, etc. Asi como estos, es un software codificado en el lenguaje de programación PHP, sin embargo entre muchas otras ventajas comparativas con de Joomla y Wordpress, GRAV no almacena el contenido ni la configuración en Bases de Datos, todo es almacenado en archivo de texto. esto es una gran ventaja, pero no nos adelantemos, aqui vamos en orden.
 
-### Find out all about Grav
+#¿Para que es Grav?
+GRAV es un sistema que te ayudará a desarrollar páginas web modernas, de forma rápida, sencilla, amigable y sobre todo divertida. Olvídate de las frustraciones y debilidades que te acarrea Wordpress y Joomla, seguramente estarás de acuerdo que con estos últimos siempre terminas haciendo un mounstro de página con códigos de muchos desarrolladores, inseguro, lento, no confiable y de dificil y costoso mantenimiento. GRAV aparece en la escena para aliviar todos estos dolores de cabeza. Esta pensado y desarrollado para la mayoría, quiero decir, para sitios web de pequeños a medianos, paginas informativas, blogs, catalogos, etc. Es un proyecto de código abierto bajo la licencia MIT, de uso gratuito. GRAV trae nativamente la mayoría de las funciones que se buscan en un CMS, elaborado con amor (como su autor lo afirma), dedidación y experiencia de Andy Miller y su equipo.
 
-* Learn about **Grav** by checking out our dedicated [Learn Grav](http://learn.getgrav.org) site.
-* Download **plugins**, **themes**, as well as other Grav **skeleton** packages from the [Grav Downloads](http://getgrav.org/downloads) page.
-* Check out our [Grav Development Blog](http://getgrav.org/blog) to find out the latest goings on in the Grav-verse.
+#¿De donde se obtiene?
+Puedes descargar GRAV directo desde la página principal, o archivo directo de los repositorios de acceso libre en Github.
 
-!!! If you want a more **full-featured** base install, you should check out [**Skeleton** packages available in the downloads](http://getgrav.org/downloads).
-
-### Edit this Page
-
-To edit this page, simply navigate to the folder you installed **Grav** into, and then browse to the `user/pages/01.home` folder and open the `default.md` file in your [editor of choice](http://learn.getgrav.org/basics/requirements).  You will see the content of this page in [Markdown format](http://learn.getgrav.org/content/markdown).
-
-### Create a New Page
-
-Creating a new page is a simple affair in **Grav**.  Simply follow these simple steps:
-
-1. Navigate to your pages folder: `user/pages/` and create a new folder.  In this example, we will use [explicit default ordering](http://learn.getgrav.org/content/content-pages) and call the folder `03.mypage`.
-2. Launch your text editor and paste in the following sample code:
-
-        ---
-        title: My New Page
-        ---
-        # My New Page!
-
-        This is the body of **my new page** and I can easily use _Markdown_ syntax here.
-
-3. Save this file in the `user/pages/03.mypage/` folder as `default.md`. This will tell **Grav** to render the page using the **default** template.
-4. That is it! Reload your browser to see your new page in the menu.
-
-! NOTE: The page will automatically show up in the Menu after the "Typography" menu item. If you wish to change the name that shows up in the Menu, simple add: `menu: My Page` between the dashes in the page content. This is called the YAML front matter, and it is where you configure page-specific options.
+#Ventajas de Grav
+Facil instalación solo pega los archivos en un servidor con los requerimientos mínimos y listo.
+Puede operar directamente el sistema sin panel de administración, si editas los archivos de texto directamente, o con opción de Administrador amigable gratuito.
+Almacena la configuración y contenido en archivos de texto planos (No Bases de Datos).
+Facil escritura de contenido en formato Markdown.
+Trae nativamente un gran sistema de manipulación de imágenes.
+Responde casi tan rápido como páginas estáticas, utilizando su sistema de Cache Avanzado.
+Extensa documentación del sistema (en Ingles)
+Facil desarrollo de plantillas, si no sabes PHP no hay problema, las plantillas se codifican en el amigable lenguaje TWIG
+Sistema de respaldos integrado, click de un boton y descarga tu archivo.
+Facil desarrollo de plugins con un API claro y bien documentado.
+Muchas mas funciones, la lista completa esta en su página web.

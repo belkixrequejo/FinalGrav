@@ -3,7 +3,7 @@
 /**
  * @package    Grav\Common
  *
- * @copyright  Copyright (C) 2015 - 2019 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (C) 2015 - 2020 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
@@ -13,9 +13,10 @@ use Grav\Common\Config\Config;
 use Grav\Common\File\CompiledYamlFile;
 use Grav\Common\Data\Blueprints;
 use Grav\Common\Data\Data;
-use RocketTheme\Toolbox\Event\EventDispatcher;
-use RocketTheme\Toolbox\Event\EventSubscriberInterface;
+use Grav\Framework\Psr7\Response;
 use RocketTheme\Toolbox\ResourceLocator\UniformResourceLocator;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Themes extends Iterator
 {
@@ -25,6 +26,7 @@ class Themes extends Iterator
     /** @var Config */
     protected $config;
 
+    /** @var bool */
     protected $inited = false;
 
     /**
@@ -64,10 +66,15 @@ class Themes extends Iterator
                 throw new \RuntimeException($this->current() . ' theme could not be found');
             }
 
+            // Register autoloader.
+            if (method_exists($instance, 'autoload')) {
+                $instance->autoload();
+            }
+
+            // Register event listeners.
             if ($instance instanceof EventSubscriberInterface) {
                 /** @var EventDispatcher $events */
                 $events = $this->grav['events'];
-
                 $events->addSubscriber($instance);
             }
 
@@ -128,7 +135,7 @@ class Themes extends Iterator
      *
      * @param  string $name
      *
-     * @return Data
+     * @return Data|null
      * @throws \RuntimeException
      */
     public function get($name)
@@ -194,27 +201,28 @@ class Themes extends Iterator
         $locator = $grav['locator'];
         $file = $locator('theme://theme.php') ?: $locator("theme://{$name}.php");
 
-        $inflector = $grav['inflector'];
-
         if ($file) {
             // Local variables available in the file: $grav, $config, $name, $file
             $class = include $file;
 
-            if (!is_object($class)) {
+            if (!$class || !is_subclass_of($class, Plugin::class, true)) {
+                $className = Inflector::camelize($name);
                 $themeClassFormat = [
-                    'Grav\\Theme\\' . ucfirst($name),
-                    'Grav\\Theme\\' . $inflector->camelize($name)
+                    'Grav\\Theme\\' . $className,
+                    'Grav\\Theme\\' . ucfirst($name)
                 ];
 
                 foreach ($themeClassFormat as $themeClass) {
-                    if (class_exists($themeClass)) {
+                    if (is_subclass_of($themeClass, Theme::class, true)) {
                         $class = new $themeClass($grav, $config, $name);
                         break;
                     }
                 }
             }
         } elseif (!$locator('theme://') && !defined('GRAV_CLI')) {
-            exit("Theme '$name' does not exist, unable to display page.");
+            $response = new Response(500, [], "Theme '$name' does not exist, unable to display page.");
+
+            $grav->close($response);
         }
 
         $this->config->set('theme', $config->get('themes.' . $name));

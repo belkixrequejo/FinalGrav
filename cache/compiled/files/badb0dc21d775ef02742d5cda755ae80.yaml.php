@@ -2,7 +2,7 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/var/www/grav/system/config/system.yaml',
-    'modified' => 1581466810,
+    'modified' => 1583192069,
     'data' => [
         'absolute_urls' => false,
         'timezone' => '',
@@ -22,6 +22,7 @@ return [
             ],
             'default_lang' => NULL,
             'include_default_lang' => true,
+            'include_default_lang_file_extension' => true,
             'pages_fallback_only' => false,
             'translations' => true,
             'translations_fallback' => true,
@@ -34,6 +35,7 @@ return [
             'hide_in_urls' => false
         ],
         'pages' => [
+            'type' => 'regular',
             'theme' => 'quark',
             'order' => [
                 'by' => 'default',
@@ -160,6 +162,8 @@ return [
         ],
         'debugger' => [
             'enabled' => false,
+            'provider' => 'clockwork',
+            'censored' => false,
             'shutdown' => [
                 'close_connection' => true
             ]
@@ -194,15 +198,31 @@ return [
             'path' => NULL
         ],
         'gpm' => [
-            'releases' => 'stable',
+            'releases' => 'testing',
             'proxy_url' => NULL,
             'method' => 'auto',
             'verify_peer' => true,
             'official_gpm_only' => true
         ],
         'accounts' => [
-            'type' => 'data',
+            'type' => 'regular',
             'storage' => 'file'
+        ],
+        'flex' => [
+            'cache' => [
+                'index' => [
+                    'enabled' => true,
+                    'lifetime' => 60
+                ],
+                'object' => [
+                    'enabled' => true,
+                    'lifetime' => 600
+                ],
+                'render' => [
+                    'enabled' => true,
+                    'lifetime' => 600
+                ]
+            ]
         ],
         'strict_mode' => [
             'yaml_compat' => true,

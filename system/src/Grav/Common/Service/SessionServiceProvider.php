@@ -3,7 +3,7 @@
 /**
  * @package    Grav\Common\Service
  *
- * @copyright  Copyright (C) 2015 - 2019 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (C) 2015 - 2020 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
@@ -23,7 +23,7 @@ class SessionServiceProvider implements ServiceProviderInterface
     public function register(Container $container)
     {
         // Define session service.
-        $container['session'] = function ($c) {
+        $container['session'] = static function ($c) {
             /** @var Config $config */
             $config = $c['config'];
 

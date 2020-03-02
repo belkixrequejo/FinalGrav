@@ -2,7 +2,7 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/var/www/grav/system/blueprints/user/account.yaml',
-    'modified' => 1581466810,
+    'modified' => 1583192069,
     'data' => [
         'title' => 'Account',
         'form' => [
@@ -128,10 +128,12 @@ return [
                         'access' => [
                             'security@' => 'admin.super',
                             'type' => 'permissions',
+                            'check_authorize' => true,
                             'label' => 'PLUGIN_ADMIN.PERMISSIONS',
                             'ignore_empty' => true,
                             'validate' => [
-                                'type' => 'array'
+                                'type' => 'array',
+                                'value_type' => 'bool'
                             ]
                         ]
                     ]

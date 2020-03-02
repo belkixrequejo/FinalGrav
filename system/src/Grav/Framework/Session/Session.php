@@ -3,7 +3,7 @@
 /**
  * @package    Grav\Framework\Session
  *
- * @copyright  Copyright (C) 2015 - 2019 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (C) 2015 - 2020 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
@@ -190,18 +190,23 @@ class Session implements SessionInterface
             $options['read_and_close'] = '1';
         }
 
-        $success = @session_start($options);
-        $user = $success ? $this->__get('user') : null;
-        if (!$success) {
-            $last = error_get_last();
-            $error = $last ? $last['message'] : 'Unknown error';
+        try {
+            $success = @session_start($options);
+            if (!$success) {
+                $last = error_get_last();
+                $error = $last ? $last['message'] : 'Unknown error';
 
-            throw new SessionException('Failed to start session: ' . $error, 500);
+                throw new \RuntimeException($error);
+            }
+        } catch (\Exception $e) {
+            throw new SessionException('Failed to start session: ' . $e->getMessage(), 500);
         }
 
         $this->started = true;
+        $this->onSessionStart();
 
-        if ($user && (!$user instanceof UserInterface || !$user->isValid())) {
+        $user = $this->__get('user');
+        if ($user && (!$user instanceof UserInterface || (method_exists($user, 'isValid') && !$user->isValid()))) {
             $this->invalidate();
 
             throw new SessionException('Invalid User object, session destroyed.', 500);
@@ -339,6 +344,10 @@ class Session implements SessionInterface
     protected function isSessionStarted()
     {
         return \PHP_SAPI !== 'cli' ? \PHP_SESSION_ACTIVE === session_status() : false;
+    }
+
+    protected function onSessionStart(): void
+    {
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 return [
     '@class' => 'Grav\\Common\\Config\\CompiledConfig',
-    'timestamp' => 1583187739,
-    'checksum' => '7340e8fb3ce08221e389f94c1a4fcd5d',
+    'timestamp' => 1583192144,
+    'checksum' => '56e1d0884f6eca8fb975ee9fe2990cac',
     'files' => [
         'user/config' => [
             'backups' => [
@@ -31,33 +31,45 @@ return [
             ],
             'system' => [
                 'file' => 'user/config/system.yaml',
-                'modified' => 1583187139
+                'modified' => 1583192094
+            ],
+            'themes/agency' => [
+                'file' => 'user/config/themes/agency.yaml',
+                'modified' => 1583191191
+            ],
+            'themes/big-picture' => [
+                'file' => 'user/config/themes/big-picture.yaml',
+                'modified' => 1583192144
             ]
         ],
         'system/config' => [
             'backups' => [
                 'file' => 'system/config/backups.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'media' => [
                 'file' => 'system/config/media.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
+            ],
+            'permissions' => [
+                'file' => 'system/config/permissions.yaml',
+                'modified' => 1583192069
             ],
             'security' => [
                 'file' => 'system/config/security.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'site' => [
                 'file' => 'system/config/site.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'streams' => [
                 'file' => 'system/config/streams.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'system' => [
                 'file' => 'system/config/system.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ]
         ],
         'user/plugins' => [
@@ -586,6 +598,77 @@ node_modules'
                 ]
             ]
         ],
+        'permissions' => [
+            'actions' => [
+                'site' => [
+                    'type' => 'access',
+                    'label' => 'Site'
+                ],
+                'admin' => [
+                    'type' => 'access',
+                    'label' => 'Admin'
+                ],
+                'admin.pages' => [
+                    'type' => 'access',
+                    'label' => 'Pages'
+                ],
+                'admin.users' => [
+                    'type' => 'access',
+                    'label' => 'User Accounts'
+                ]
+            ],
+            'types' => [
+                'default' => [
+                    'type' => 'access'
+                ],
+                'crud' => [
+                    'type' => 'compact',
+                    'letters' => [
+                        'c' => [
+                            'action' => 'create',
+                            'label' => 'PLUGIN_ADMIN.CREATE'
+                        ],
+                        'r' => [
+                            'action' => 'read',
+                            'label' => 'PLUGIN_ADMIN.READ'
+                        ],
+                        'u' => [
+                            'action' => 'update',
+                            'label' => 'PLUGIN_ADMIN.UPDATE'
+                        ],
+                        'd' => [
+                            'action' => 'delete',
+                            'label' => 'PLUGIN_ADMIN.DELETE'
+                        ]
+                    ]
+                ],
+                'crudp' => [
+                    'type' => 'crud',
+                    'letters' => [
+                        'p' => [
+                            'action' => 'publish',
+                            'label' => 'PLUGIN_ADMIN.PUBLISH'
+                        ]
+                    ]
+                ],
+                'crudl' => [
+                    'type' => 'crud',
+                    'letters' => [
+                        'l' => [
+                            'action' => 'list',
+                            'label' => 'PLUGIN_ADMIN.LIST'
+                        ]
+                    ]
+                ],
+                'crudpl' => [
+                    'type' => 'crud',
+                    'use' => [
+                        0 => 'crudp',
+                        1 => 'crudl'
+                    ]
+                ]
+            ]
+        ],
         'security' => [
             'xss_whitelist' => [
                 0 => 'admin.super'
@@ -631,6 +714,7 @@ node_modules'
                 3 => 'js',
                 4 => 'exe'
             ],
+            'sanitize_svg' => true,
             'salt' => 'FkhHasxXWo7Vqi'
         ],
         'site' => [
@@ -684,23 +768,22 @@ node_modules'
         ],
         'system' => [
             'absolute_urls' => false,
-            'timezone' => '',
+            'timezone' => NULL,
             'default_locale' => NULL,
             'param_sep' => ':',
             'wrapped_site' => false,
             'reverse_proxy_setup' => false,
             'force_ssl' => false,
             'force_lowercase_urls' => true,
-            'custom_base_url' => '',
+            'custom_base_url' => NULL,
             'username_regex' => '^[a-z0-9_-]{3,16}$',
             'pwd_regex' => '(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
             'intl_enabled' => true,
             'languages' => [
-                'supported' => [
-                    
-                ],
+                'supported' => NULL,
                 'default_lang' => NULL,
                 'include_default_lang' => true,
+                'include_default_lang_file_extension' => true,
                 'pages_fallback_only' => false,
                 'translations' => true,
                 'translations_fallback' => true,
@@ -713,7 +796,8 @@ node_modules'
                 'hide_in_urls' => false
             ],
             'pages' => [
-                'theme' => 'quark',
+                'type' => 'regular',
+                'theme' => 'big-picture',
                 'order' => [
                     'by' => 'default',
                     'dir' => 'asc'
@@ -756,14 +840,14 @@ node_modules'
                     5 => 'rss',
                     6 => 'atom'
                 ],
-                'append_url_extension' => '',
+                'append_url_extension' => NULL,
                 'expires' => 604800,
                 'cache_control' => NULL,
                 'last_modified' => false,
                 'etag' => false,
                 'vary_accept_encoding' => false,
                 'redirect_default_route' => false,
-                'redirect_default_code' => 302,
+                'redirect_default_code' => '302',
                 'redirect_trailing_slash' => true,
                 'ignore_files' => [
                     0 => '.DS_Store'
@@ -773,7 +857,7 @@ node_modules'
                     1 => '.idea'
                 ],
                 'ignore_hidden' => true,
-                'hide_empty_folders' => false,
+                'hide_empty_folders' => NULL,
                 'url_taxonomy_filters' => true,
                 'frontmatter' => [
                     'process_twig' => false,
@@ -799,7 +883,18 @@ node_modules'
                 'gzip' => false,
                 'allow_webserver_gzip' => false,
                 'redis' => [
-                    'socket' => false
+                    'socket' => NULL,
+                    'server' => NULL,
+                    'port' => NULL,
+                    'password' => NULL
+                ],
+                'memcache' => [
+                    'server' => NULL,
+                    'port' => NULL
+                ],
+                'memcached' => [
+                    'server' => NULL,
+                    'port' => NULL
                 ]
             ],
             'twig' => [
@@ -828,7 +923,7 @@ node_modules'
                 ]
             ],
             'errors' => [
-                'display' => true,
+                'display' => 1,
                 'log' => true
             ],
             'log' => [
@@ -839,6 +934,8 @@ node_modules'
             ],
             'debugger' => [
                 'enabled' => false,
+                'provider' => 'clockwork',
+                'censored' => false,
                 'shutdown' => [
                     'close_connection' => true
                 ],
@@ -854,13 +951,10 @@ node_modules'
             ],
             'media' => [
                 'enable_media_timestamp' => false,
-                'unsupported_inline_types' => [
-                    
-                ],
-                'allowed_fallback_types' => [
-                    
-                ],
-                'auto_metadata_exif' => false
+                'unsupported_inline_types' => NULL,
+                'allowed_fallback_types' => NULL,
+                'auto_metadata_exif' => false,
+                'upload_limit' => 2097152
             ],
             'session' => [
                 'enabled' => true,
@@ -874,7 +968,7 @@ node_modules'
                 'path' => NULL
             ],
             'gpm' => [
-                'releases' => 'stable',
+                'releases' => 'testing',
                 'proxy_url' => NULL,
                 'method' => 'auto',
                 'verify_peer' => true,
@@ -884,6 +978,22 @@ node_modules'
                 'type' => 'data',
                 'storage' => 'file'
             ],
+            'flex' => [
+                'cache' => [
+                    'index' => [
+                        'enabled' => true,
+                        'lifetime' => 60
+                    ],
+                    'object' => [
+                        'enabled' => true,
+                        'lifetime' => 600
+                    ],
+                    'render' => [
+                        'enabled' => true,
+                        'lifetime' => 600
+                    ]
+                ]
+            ],
             'strict_mode' => [
                 'yaml_compat' => true,
                 'twig_compat' => true
@@ -891,6 +1001,29 @@ node_modules'
         ],
         'scheduler' => [
             
+        ],
+        'themes' => [
+            'agency' => [
+                'enabled' => true,
+                'color' => 'red',
+                'dropdown' => [
+                    'enabled' => false
+                ]
+            ],
+            'big-picture' => [
+                'enabled' => true,
+                'favicon' => [
+                    'user/themes/big-picture/images/favicon.png' => [
+                        'name' => 'favicon.png',
+                        'type' => 'image/png',
+                        'size' => 1610,
+                        'path' => 'user/themes/big-picture/images/favicon.png'
+                    ]
+                ],
+                'error_background_image' => [
+                    
+                ]
+            ]
         ]
     ]
 ];

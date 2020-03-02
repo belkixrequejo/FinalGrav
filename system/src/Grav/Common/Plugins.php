@@ -3,7 +3,7 @@
 /**
  * @package    Grav\Common
  *
- * @copyright  Copyright (C) 2015 - 2019 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (C) 2015 - 2020 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
@@ -13,11 +13,13 @@ use Grav\Common\Config\Config;
 use Grav\Common\Data\Blueprints;
 use Grav\Common\Data\Data;
 use Grav\Common\File\CompiledYamlFile;
-use RocketTheme\Toolbox\Event\EventDispatcher;
+use Grav\Events\PluginsLoadedEvent;
 use RocketTheme\Toolbox\ResourceLocator\UniformResourceLocator;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Plugins extends Iterator
 {
+    /** @var array */
     public $formFieldTypes;
 
     public function __construct()
@@ -30,7 +32,7 @@ class Plugins extends Iterator
         $iterator = $locator->getIterator('plugins://');
 
         $plugins = [];
-        foreach($iterator as $directory) {
+        foreach ($iterator as $directory) {
             if (!$directory->isDir()) {
                 continue;
             }
@@ -106,10 +108,20 @@ class Plugins extends Iterator
         foreach ($this->items as $instance) {
             // Register only enabled plugins.
             if ($config["plugins.{$instance->name}.enabled"] && $instance instanceof Plugin) {
+                // Set plugin configuration.
                 $instance->setConfig($config);
+                // Register autoloader.
+                if (method_exists($instance, 'autoload')) {
+                    $instance->autoload();
+                }
+                // Register event listeners.
                 $events->addSubscriber($instance);
             }
         }
+
+        // Plugins Loaded Event
+        $event = new PluginsLoadedEvent($grav, $this);
+        $grav->dispatchEvent($event);
 
         return $this->items;
     }
@@ -124,6 +136,18 @@ class Plugins extends Iterator
         if (is_object($plugin)) {
             $this->items[get_class($plugin)] = $plugin;
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function __debugInfo(): array
+    {
+        $array = (array)$this;
+
+        unset($array["\0Grav\Common\Iterator\0iteratorUnset"]);
+
+        return $array;
     }
 
     /**
@@ -195,24 +219,28 @@ class Plugins extends Iterator
 
     protected function loadPlugin($name)
     {
+        // NOTE: ALL THE LOCAL VARIABLES ARE USED INSIDE INCLUDED FILE, DO NOT REMOVE THEM!
         $grav = Grav::instance();
         $locator = $grav['locator'];
-
         $file = $locator->findResource('plugins://' . $name . DS . $name . PLUGIN_EXT);
 
         if (is_file($file)) {
-            // Local variables available in the file: $grav, $config, $name, $file
+            // Local variables available in the file: $grav, $name, $file
             $class = include_once $file;
 
-            $pluginClassFormat = [
-                'Grav\\Plugin\\' . ucfirst($name). 'Plugin',
-                'Grav\\Plugin\\' . Inflector::camelize($name) . 'Plugin'
-            ];
+            if (!$class || !is_subclass_of($class, Plugin::class, true)) {
+                $className = Inflector::camelize($name);
+                $pluginClassFormat = [
+                    'Grav\\Plugin\\' . ucfirst($name). 'Plugin',
+                    'Grav\\Plugin\\' . $className . 'Plugin',
+                    'Grav\\Plugin\\' . $className
+                ];
 
-            foreach ($pluginClassFormat as $pluginClass) {
-                if (class_exists($pluginClass)) {
-                    $class = new $pluginClass($name, $grav);
-                    break;
+                foreach ($pluginClassFormat as $pluginClass) {
+                    if (is_subclass_of($pluginClass, Plugin::class, true)) {
+                        $class = new $pluginClass($name, $grav);
+                        break;
+                    }
                 }
             }
         } else {
@@ -224,5 +252,4 @@ class Plugins extends Iterator
 
         return $class;
     }
-
 }

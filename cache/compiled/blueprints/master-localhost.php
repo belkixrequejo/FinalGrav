@@ -1,37 +1,37 @@
 <?php
 return [
     '@class' => 'Grav\\Common\\Config\\CompiledBlueprints',
-    'timestamp' => 1583187181,
-    'checksum' => '076640fb23e81a5f6afadc7c64f1620e',
+    'timestamp' => 1583192101,
+    'checksum' => '99c5408ece85bb6b3305fd9d3bd87ae8',
     'files' => [
         'system/blueprints/config' => [
             'backups' => [
                 'file' => 'system/blueprints/config/backups.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'media' => [
                 'file' => 'system/blueprints/config/media.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'scheduler' => [
                 'file' => 'system/blueprints/config/scheduler.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'security' => [
                 'file' => 'system/blueprints/config/security.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'site' => [
                 'file' => 'system/blueprints/config/site.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'streams' => [
                 'file' => 'system/blueprints/config/streams.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ],
             'system' => [
                 'file' => 'system/blueprints/config/system.yaml',
-                'modified' => 1581466810
+                'modified' => 1583192069
             ]
         ],
         'user/plugins' => [
@@ -474,6 +474,21 @@ return [
                     'type' => 'commalist'
                 ],
                 'name' => 'security.uploads_dangerous_extensions',
+                'validation' => 'loose'
+            ],
+            'security.sanitize_svg' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.SANITIZE_SVG',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'default' => true,
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'security.sanitize_svg',
                 'validation' => 'loose'
             ],
             'site' => [
@@ -1078,6 +1093,40 @@ return [
                 'name' => 'system.languages.include_default_lang',
                 'validation' => 'loose'
             ],
+            'system.languages.include_default_lang_file_extension' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.INCLUDE_DEFAULT_LANG_FILE_EXTENSION',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.languages.include_default_lang_file_extension',
+                'validation' => 'loose'
+            ],
+            'system.key' => [
+                'type' => 'key',
+                'label' => 'PLUGIN_ADMIN.LANGUAGE',
+                'name' => 'system.key',
+                'validation' => 'loose'
+            ],
+            'system.value' => [
+                'type' => 'selectize',
+                'size' => 'large',
+                'label' => 'PLUGIN_ADMIN.CONTENT_LANGUAGE_FALLBACK',
+                'classes' => 'fancy',
+                'name' => 'system.value',
+                'validation' => 'loose'
+            ],
+            'system.languages.content_fallback' => [
+                'type' => 'list',
+                'label' => 'PLUGIN_ADMIN.CONTENT_LANGUAGE_FALLBACKS',
+                'name' => 'system.languages.content_fallback',
+                'validation' => 'loose'
+            ],
             'system.languages.pages_fallback_only' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.PAGES_FALLBACK_ONLY',
@@ -1094,7 +1143,7 @@ return [
             ],
             'system.languages.translations' => [
                 'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.TRANSLATIONS_ENABLED',
+                'label' => 'PLUGIN_ADMIN.LANGUAGE_TRANSLATIONS',
                 'highlight' => 1,
                 'options' => [
                     1 => 'PLUGIN_ADMIN.YES',
@@ -1170,7 +1219,7 @@ return [
             ],
             'system.pages.expires' => [
                 'type' => 'text',
-                'size' => 'small',
+                'size' => 'x-small',
                 'append' => 'GRAV.NICETIME.SECOND_PLURAL',
                 'label' => 'PLUGIN_ADMIN.EXPIRES',
                 'validate' => [
@@ -1916,6 +1965,32 @@ return [
                 'name' => 'system.debugger.enabled',
                 'validation' => 'loose'
             ],
+            'system.debugger.provider' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.DEBUGGER_PROVIDER',
+                'size' => 'medium',
+                'default' => 'debugbar',
+                'options' => [
+                    'debugbar' => 'PLUGIN_ADMIN.DEBUGGER_DEBUGBAR',
+                    'clockwork' => 'PLUGIN_ADMIN.DEBUGGER_CLOCKWORK'
+                ],
+                'name' => 'system.debugger.provider',
+                'validation' => 'loose'
+            ],
+            'system.debugger.censored' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.DEBUGGER_CENSORED',
+                'highlight' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.debugger.censored',
+                'validation' => 'loose'
+            ],
             'system.debugger.shutdown' => [
                 'type' => '_parent',
                 'name' => 'system.debugger.shutdown',
@@ -2400,12 +2475,24 @@ return [
                 'form_field' => false
             ],
             'system.accounts.type' => [
-                'type' => 'hidden',
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.ACCOUNTS_TYPE',
+                'highlight' => 'stable',
+                'options' => [
+                    'regular' => 'PLUGIN_ADMIN.REGULAR',
+                    'flex' => 'PLUGIN_ADMIN.FLEX'
+                ],
                 'name' => 'system.accounts.type',
                 'validation' => 'loose'
             ],
             'system.accounts.storage' => [
-                'type' => 'hidden',
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.ACCOUNTS_STORAGE',
+                'highlight' => 'stable',
+                'options' => [
+                    'file' => 'PLUGIN_ADMIN.FILE',
+                    'folder' => 'PLUGIN_ADMIN.FOLDER'
+                ],
                 'name' => 'system.accounts.storage',
                 'validation' => 'loose'
             ],
@@ -2447,6 +2534,143 @@ return [
             'system.advanced' => [
                 'type' => 'tab',
                 'name' => 'system.advanced',
+                'validation' => 'loose'
+            ],
+            'system.experimental_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.experimental_section',
+                'validation' => 'loose'
+            ],
+            'system.flex_pages' => [
+                'type' => 'section',
+                'name' => 'system.flex_pages',
+                'validation' => 'loose'
+            ],
+            'system.pages.type' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.PAGES_TYPE',
+                'highlight' => 'stable',
+                'options' => [
+                    'regular' => 'PLUGIN_ADMIN.REGULAR',
+                    'flex' => 'PLUGIN_ADMIN.FLEX'
+                ],
+                'name' => 'system.pages.type',
+                'validation' => 'loose'
+            ],
+            'system.flex_accounts' => [
+                'type' => 'section',
+                'name' => 'system.flex_accounts',
+                'validation' => 'loose'
+            ],
+            'system.flex_caching' => [
+                'type' => 'section',
+                'name' => 'system.flex_caching',
+                'validation' => 'loose'
+            ],
+            'system.flex' => [
+                'type' => '_parent',
+                'name' => 'system.flex',
+                'form_field' => false
+            ],
+            'system.flex.cache' => [
+                'type' => '_parent',
+                'name' => 'system.flex.cache',
+                'form_field' => false
+            ],
+            'system.flex.cache.index' => [
+                'type' => '_parent',
+                'name' => 'system.flex.cache.index',
+                'form_field' => false
+            ],
+            'system.flex.cache.index.enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.FLEX_INDEX_CACHE_ENABLED',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.flex.cache.index.enabled',
+                'validation' => 'loose'
+            ],
+            'system.flex.cache.index.lifetime' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.FLEX_INDEX_CACHE_LIFETIME',
+                'default' => 60,
+                'validate' => [
+                    'type' => 'int'
+                ],
+                'name' => 'system.flex.cache.index.lifetime',
+                'validation' => 'loose'
+            ],
+            'system.flex.cache.object' => [
+                'type' => '_parent',
+                'name' => 'system.flex.cache.object',
+                'form_field' => false
+            ],
+            'system.flex.cache.object.enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.FLEX_OBJECT_CACHE_ENABLED',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.flex.cache.object.enabled',
+                'validation' => 'loose'
+            ],
+            'system.flex.cache.object.lifetime' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.FLEX_OBJECT_CACHE_LIFETIME',
+                'default' => 600,
+                'validate' => [
+                    'type' => 'int'
+                ],
+                'name' => 'system.flex.cache.object.lifetime',
+                'validation' => 'loose'
+            ],
+            'system.flex.cache.render' => [
+                'type' => '_parent',
+                'name' => 'system.flex.cache.render',
+                'form_field' => false
+            ],
+            'system.flex.cache.render.enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.FLEX_RENDER_CACHE_ENABLED',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.flex.cache.render.enabled',
+                'validation' => 'loose'
+            ],
+            'system.flex.cache.render.lifetime' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.FLEX_RENDER_CACHE_LIFETIME',
+                'default' => 600,
+                'validate' => [
+                    'type' => 'int'
+                ],
+                'name' => 'system.flex.cache.render.lifetime',
+                'validation' => 'loose'
+            ],
+            'system.experimental' => [
+                'type' => 'tab',
+                'name' => 'system.experimental',
                 'validation' => 'loose'
             ],
             'system.system_tabs' => [
@@ -4336,7 +4560,8 @@ return [
                 'xss_invalid_protocols' => 'security.xss_invalid_protocols',
                 'xss_dangerous_tags' => 'security.xss_dangerous_tags',
                 'uploads_section' => 'security.uploads_section',
-                'uploads_dangerous_extensions' => 'security.uploads_dangerous_extensions'
+                'uploads_dangerous_extensions' => 'security.uploads_dangerous_extensions',
+                'sanitize_svg' => 'security.sanitize_svg'
             ],
             'site' => [
                 'content' => 'site.content',
@@ -4413,13 +4638,16 @@ return [
                         'auto_line_breaks' => 'system.pages.markdown.auto_line_breaks',
                         'auto_url_links' => 'system.pages.markdown.auto_url_links',
                         'escape_markup' => 'system.pages.markdown.escape_markup'
-                    ]
+                    ],
+                    'type' => 'system.pages.type'
                 ],
                 'timezone' => 'system.timezone',
                 'languages' => [
                     'supported' => 'system.languages.supported',
                     'default_lang' => 'system.languages.default_lang',
                     'include_default_lang' => 'system.languages.include_default_lang',
+                    'include_default_lang_file_extension' => 'system.languages.include_default_lang_file_extension',
+                    'content_fallback' => 'system.languages.content_fallback',
                     'pages_fallback_only' => 'system.languages.pages_fallback_only',
                     'translations' => 'system.languages.translations',
                     'translations_fallback' => 'system.languages.translations_fallback',
@@ -4428,6 +4656,8 @@ return [
                     'override_locale' => 'system.languages.override_locale'
                 ],
                 'languages-section' => 'system.languages-section',
+                'key' => 'system.key',
+                'value' => 'system.value',
                 'http_headers' => 'system.http_headers',
                 'http_headers_section' => 'system.http_headers_section',
                 'markdown' => 'system.markdown',
@@ -4500,6 +4730,8 @@ return [
                 ],
                 'debugger' => [
                     'enabled' => 'system.debugger.enabled',
+                    'provider' => 'system.debugger.provider',
+                    'censored' => 'system.debugger.censored',
                     'shutdown' => [
                         'close_connection' => 'system.debugger.shutdown.close_connection'
                     ]
@@ -4558,6 +4790,27 @@ return [
                 'strict_mode' => [
                     'yaml_compat' => 'system.strict_mode.yaml_compat',
                     'twig_compat' => 'system.strict_mode.twig_compat'
+                ],
+                'experimental' => 'system.experimental',
+                'experimental_section' => 'system.experimental_section',
+                'flex_pages' => 'system.flex_pages',
+                'flex_accounts' => 'system.flex_accounts',
+                'flex_caching' => 'system.flex_caching',
+                'flex' => [
+                    'cache' => [
+                        'index' => [
+                            'enabled' => 'system.flex.cache.index.enabled',
+                            'lifetime' => 'system.flex.cache.index.lifetime'
+                        ],
+                        'object' => [
+                            'enabled' => 'system.flex.cache.object.enabled',
+                            'lifetime' => 'system.flex.cache.object.lifetime'
+                        ],
+                        'render' => [
+                            'enabled' => 'system.flex.cache.render.enabled',
+                            'lifetime' => 'system.flex.cache.render.lifetime'
+                        ]
+                    ]
                 ]
             ],
             'plugins' => [
