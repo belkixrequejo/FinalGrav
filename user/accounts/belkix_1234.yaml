@@ -1,0 +1,11 @@
+state: enabled
+email: maritzarequejo2208@gmail.com
+fullname: 'Belkix Requejo'
+title: Desarrollador
+access:
+  admin:
+    login: true
+    super: true
+  site:
+    login: true
+hashed_password: $2y$10$GlRKC7dFreMucmQnPlOwJebrQ6dfyo10wKgSCWocxvf5jXOBQNMMu
